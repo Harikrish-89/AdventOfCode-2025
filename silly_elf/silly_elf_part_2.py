@@ -13,22 +13,6 @@ puzzle_input = ['197-407', '262128-339499', '557930-573266', '25-57', '92856246-
                 '1922-9652', '424942-446151', '408-1000']
 non_id_pattern= '^0'
 
-def check_silly(val):
-    if len(val) % 2 != 0:
-        return 0
-    mid_index = len(val) // 2
-    first_half = val[:mid_index]
-    second_half = val[mid_index:]
-    if first_half == second_half:
-        return  int(val)
-    else:
-        return 0
-
-def get_value_length(seq_map):
-    val=0
-    for key in seq_map:
-        val += len(key) * seq_map[key]
-    return val
 
 def check_naughty(val):
     pattern =  r'^(.*?)\1+$'
@@ -41,7 +25,8 @@ def check_naughty(val):
     else:
         return 0
 
-result = []
+total=0
+
 for id_range in puzzle_input:
     start_range, end_range = id_range.split('-')
     start = int(start_range)
@@ -51,13 +36,9 @@ for id_range in puzzle_input:
         continue
     for elf_id in range(start, end + 1):
             elf_id_str = str(elf_id)
-            silly = check_silly(elf_id_str)
-            result.append(silly)
             naughty = int(check_naughty(elf_id_str))
-            # because I'm too lazy to find a generic solution that works for both part1 and 2
-            if naughty not in result:
-                result.append(naughty)
+            total += naughty
 
-print(sum(result))
+print(total)
 
 
